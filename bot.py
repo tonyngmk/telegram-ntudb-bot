@@ -67,7 +67,7 @@ def getUser(update, context):
     df = df[["firstName", "userInputName"]]
     context.bot.send_message(chat_id=update.effective_chat.id, text=df.to_string())
 
-def start(update, context):
+def giveAtt(update, context):
     user = update.message.from_user
     logger.info("1: User {} started giving attendance via /start".format(user.first_name))
     context.bot.send_message(chat_id=update.effective_chat.id, text="👋 Hello, I'm an NTUDB attendance bot! 😀")
@@ -198,9 +198,9 @@ def help(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="😃 Calm down, it's not rocket science. 😃")
     context.bot.send_message(chat_id=update.effective_chat.id, text='''
 Commands:
-/newUser - Register yourself
+/start - Register yourself
 /getUsers - Get registered users
-/start - Give attendance
+/giveAtt - Give attendance
 /getAtt - Get attendance
 /help - This again lol''')
 
@@ -213,7 +213,7 @@ def main():
     
     # Give Attendance
     attn_conv_handler = ConversationHandler(
-        entry_points = [CommandHandler('start', start)],
+        entry_points = [CommandHandler('giveAtt', giveAtt)],
         states={
             CONT: [CommandHandler('Yes', cont_to_date), CommandHandler('No', cancel)],
             TIME: [MessageHandler(Filters.regex('^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\d{4})\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])'), date_to_time)],
@@ -236,7 +236,7 @@ def main():
   
     # Users 
     user_conv_handler = ConversationHandler(
-        entry_points = [CommandHandler('newUser', newUser)],
+        entry_points = [CommandHandler('start', newUser)],
         states={
             newUser2: [MessageHandler(Filters.text, newUser2), CommandHandler('No', cancel)],
             newUser3: [MessageHandler(Filters.regex('(.*)@gmail.com$'), newUser3), CommandHandler('No', cancel)]
