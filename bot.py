@@ -6,7 +6,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Conve
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 import logging
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -81,12 +81,12 @@ def cont_to_date(update, context):
     user = update.message.from_user
     logger.info("2: User {} confirmed giving attendance via /Yes".format(user.first_name, update.message.text))
     context.bot.send_message(chat_id=update.effective_chat.id, text="😮 Wow that's some enthusiasm there! 😮")
-    TODAY = datetime.today().strftime("%A, %Y/%m/%d")
+    TODAY = (datetime.today() + timedelta(hours=8)).strftime("%A, %Y/%m/%d")
     context.bot.send_message(chat_id=update.effective_chat.id, text="📅 Today is *{}*.".format(TODAY), parse_mode=telegram.ParseMode.MARKDOWN)
     # context.bot.send_message(chat_id=update.effective_chat.id, text="Which is also time for you to wAkE tHE fK UP 😥😥 \n\njkjk 🥰.".format(TODAY), parse_mode=telegram.ParseMode.MARKDOWN)
-    THIS_YEAR = datetime.today().isocalendar()[0]
-    THIS_WEEK = datetime.today().isocalendar()[1]
-    if datetime.today().isocalendar()[2] < 4:
+    THIS_YEAR = (datetime.today() + timedelta(hours=8)).isocalendar()[0]
+    THIS_WEEK = (datetime.today() + timedelta(hours=8)).isocalendar()[1]
+    if (datetime.today() + timedelta(hours=8)).isocalendar()[2] < 4:
         context.bot.send_message(chat_id=update.effective_chat.id, text="jkjk 🥰.\n\n Since it's still *NOT Thurs*, you can select for this week's attendance.", parse_mode=telegram.ParseMode.MARKDOWN)
         kb = [[telegram.KeyboardButton(datetime.fromisocalendar(THIS_YEAR, THIS_WEEK, 1).strftime("%a, %Y/%m/%d"))],
               [telegram.KeyboardButton(datetime.fromisocalendar(THIS_YEAR, THIS_WEEK, 3).strftime("%a, %Y/%m/%d"))]]
@@ -122,7 +122,7 @@ def time1730H_to_end(update, context):
     logger.info("User {} has selected {}".format(user.first_name, update.message.text))
     userInputName = user_df[user_df["id"]==user.id]["userInputName"].values[0]
     attn_sheet = sheet.worksheet("Attendance")
-    timestampNow = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    timestampNow = (datetime.now() + timedelta(hours=8)).strftime("%Y/%m/%d %H:%M:%S")
     array = [timestampNow, user.id, user.username, user.full_name, userInputName, day_cache, date_cache, time_cache, reason_cache]
     df = pd.DataFrame(attn_sheet.get_all_records())
     df.loc[len(df)] = array
@@ -145,7 +145,7 @@ def over_1830H_2(update, context):
     reason_cache = " ".join(update.message.text.split(" ")[1:])
     userInputName = user_df[user_df["id"]==user.id]["userInputName"].values[0]
     attn_sheet = sheet.worksheet("Attendance")
-    timestampNow = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    timestampNow = (datetime.now() + timedelta(hours=8)).strftime("%Y/%m/%d %H:%M:%S")
     array = [timestampNow, user.id, user.username, user.full_name, userInputName, day_cache, date_cache, time_cache, reason_cache]
     df = pd.DataFrame(attn_sheet.get_all_records())
     df.loc[len(df)] = array
@@ -157,12 +157,12 @@ def getAttendance(update, context):
     user = update.message.from_user
     logger.info("1/2: User {} has started querying for attendance".format(user.first_name, update.message.text))
     context.bot.send_message(chat_id=update.effective_chat.id, text="👇 Please select the date of attendance 👇")
-    TODAY = datetime.today().strftime("%A, %Y/%m/%d")
+    TODAY = (datetime.today() + timedelta(hours=8)).strftime("%A, %Y/%m/%d")
     context.bot.send_message(chat_id=update.effective_chat.id, text="📅 Today is *{}*.".format(TODAY), parse_mode=telegram.ParseMode.MARKDOWN)
     # context.bot.send_message(chat_id=update.effective_chat.id, text="Which is also time for you to wAkE tHE fK UP 😥😥 \n\njkjk 🥰.".format(TODAY), parse_mode=telegram.ParseMode.MARKDOWN)
-    THIS_YEAR = datetime.today().isocalendar()[0]
-    THIS_WEEK = datetime.today().isocalendar()[1]
-    if datetime.today().isocalendar()[2] < 4:
+    THIS_YEAR = (datetime.today() + timedelta(hours=8)).isocalendar()[0]
+    THIS_WEEK = (datetime.today() + timedelta(hours=8)).isocalendar()[1]
+    if (datetime.today() + timedelta(hours=8)).isocalendar()[2] < 4:
         context.bot.send_message(chat_id=update.effective_chat.id, text="jkjk 🥰.\n\n Since it's still *NOT Thurs*, I've prepared options for this week's attendance.", parse_mode=telegram.ParseMode.MARKDOWN)
         kb = [[telegram.KeyboardButton(datetime.fromisocalendar(THIS_YEAR, THIS_WEEK, 1).strftime("%Y/%m/%d"))],
               [telegram.KeyboardButton(datetime.fromisocalendar(THIS_YEAR, THIS_WEEK, 3).strftime("%Y/%m/%d"))]]
