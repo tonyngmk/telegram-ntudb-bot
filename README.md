@@ -7,7 +7,9 @@ This can be an example of seamlessly integrating **Telegram** with **Google Shee
 
 ## Diagram
 
-*insert diagram here*
+<p align="center">
+  <img src="https://raw.githubusercontent.com/tonyngmk/telegram-ntudb-bot/master/telegram-ntudb-bot.png" />
+</p>
 
 ### 1. Google Cloud Platform (GCP)
 

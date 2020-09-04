@@ -218,7 +218,7 @@ def main():
             CONT: [CommandHandler('Yes', cont_to_date), CommandHandler('No', cancel)],
             TIME: [MessageHandler(Filters.regex('^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\d{4})\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])'), date_to_time)],
             OVER_1830H: [MessageHandler(Filters.regex('onwards$'), over_1830H),
-                        MessageHandler(Filters.regex('1730H$'), time1730H_to_end)],
+                        MessageHandler(Filters.regex('1730H$'), time1730H   _to_end)],
             OVER_1830H_2: [MessageHandler(Filters.text, over_1830H_2)]
         },
         fallbacks=[CommandHandler('No', cancel)])
