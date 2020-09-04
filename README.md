@@ -47,7 +47,7 @@ In essence, the bot is able to query and insert rows to gsheets directly.
 - delete_row(rowNo)
 - update_cell(rowNo, colNo, value)
 
-Sheets active in bot:
+####### Sheets active in bot:
 - Users
 - Attendance
 
