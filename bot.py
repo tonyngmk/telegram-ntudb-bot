@@ -205,7 +205,7 @@ Commands:
 /help - This again lol''')
 
 def main():
-    f = open("NTUDB_Bot_API.txt")
+    f = open("botapi.txt")
     TOKEN = f.readlines()[0]
     f.close()
     updater = Updater(TOKEN, use_context=True)
